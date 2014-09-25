@@ -1,0 +1,481 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>工时统计 V1.0 By 刘浩</title>
+
+<style>
+.button {
+	display: inline-block;
+	zoom: 1; /* zoom and *display = ie7 hack for display:inline-block */
+	*display: inline;
+	vertical-align: baseline;
+	margin: 0 2px;
+	outline: none;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	font: 16px/100% 宋体;
+	padding: .5em 2em .55em;
+	text-shadow: 0 1px 1px rgba(0,0,0,.3);
+	-webkit-border-radius: .5em; 
+	-moz-border-radius: .5em;
+	border-radius: .5em;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+}
+.button:hover {
+	text-decoration: none;
+}
+.button:active {
+	position: relative;
+	top: 1px;
+}
+.bigrounded {
+	-webkit-border-radius: 2em;
+	-moz-border-radius: 2em;
+	border-radius: 2em;
+}
+.medium {
+	font-size: 14px;
+	padding: .4em 1.8em .52em;
+}
+
+/* red */
+.red {
+	color: #faddde;
+	border: solid 1px #980c10;
+	background: #d81b21;
+	background: -webkit-gradient(linear, left top, left bottom, from(#ed1c24), to(#aa1317));
+	background: -moz-linear-gradient(top,  #ed1c24,  #aa1317);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ed1c24', endColorstr='#aa1317');
+}
+.red:hover {
+	background: #b61318;
+	background: -webkit-gradient(linear, left top, left bottom, from(#c9151b), to(#a11115));
+	background: -moz-linear-gradient(top,  #c9151b,  #a11115);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#c9151b', endColorstr='#a11115');
+}
+.red:active {
+	color: #de898c;
+	background: -webkit-gradient(linear, left top, left bottom, from(#aa1317), to(#ed1c24));
+	background: -moz-linear-gradient(top,  #aa1317,  #ed1c24);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#aa1317', endColorstr='#ed1c24');
+}
+
+/* blue */
+.blue {
+	color: #d9eef7;
+	border: solid 1px #0076a3;
+	background: #0095cd;
+	background: -webkit-gradient(linear, left top, left bottom, from(#00adee), to(#0078a5));
+	background: -moz-linear-gradient(top,  #00adee,  #0078a5);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#00adee', endColorstr='#0078a5');
+}
+.blue:hover {
+	background: #007ead;
+	background: -webkit-gradient(linear, left top, left bottom, from(#0095cc), to(#00678e));
+	background: -moz-linear-gradient(top,  #0095cc,  #00678e);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0095cc', endColorstr='#00678e');
+}
+.blue:active {
+	color: #80bed6;
+	background: -webkit-gradient(linear, left top, left bottom, from(#0078a5), to(#00adee));
+	background: -moz-linear-gradient(top,  #0078a5,  #00adee);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#0078a5', endColorstr='#00adee');
+}
+
+/* orange */
+.orange {
+	color: #fef4e9;
+	border: solid 1px #da7c0c;
+	background: #f78d1d;
+	background: -webkit-gradient(linear, left top, left bottom, from(#faa51a), to(#f47a20));
+	background: -moz-linear-gradient(top,  #faa51a,  #f47a20);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa51a', endColorstr='#f47a20');
+}
+.orange:hover {
+	background: #f47c20;
+	background: -webkit-gradient(linear, left top, left bottom, from(#f88e11), to(#f06015));
+	background: -moz-linear-gradient(top,  #f88e11,  #f06015);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');
+}
+.orange:active {
+	color: #fcd3a5;
+	background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a));
+	background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
+}
+
+/* green */
+.green {
+	color: #e8f0de;
+	border: solid 1px #538312;
+	background: #64991e;
+	background: -webkit-gradient(linear, left top, left bottom, from(#7db72f), to(#4e7d0e));
+	background: -moz-linear-gradient(top,  #7db72f,  #4e7d0e);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#7db72f', endColorstr='#4e7d0e');
+}
+.green:hover {
+	background: #538018;
+	background: -webkit-gradient(linear, left top, left bottom, from(#6b9d28), to(#436b0c));
+	background: -moz-linear-gradient(top,  #6b9d28,  #436b0c);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#6b9d28', endColorstr='#436b0c');
+}
+.green:active {
+	color: #a9c08c;
+	background: -webkit-gradient(linear, left top, left bottom, from(#4e7d0e), to(#7db72f));
+	background: -moz-linear-gradient(top,  #4e7d0e,  #7db72f);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#4e7d0e', endColorstr='#7db72f');
+}
+</style>
+
+</head>
+
+
+<script>
+
+	var worker = new Array();
+	var elementCount = 0; 
+	var flag = 0;
+	
+	function createWorker(name, picnumber, count, time){
+		this.name = name;
+		this.picnumber = picnumber;
+		this.count = count;
+		this.time = time;
+		}
+		  
+	
+    function AddElement(){   
+		elementCount = elementCount + 1; 
+		
+		var TemO=document.getElementById("hi");   
+        var newInput = document.createElement("input");    
+        newInput.type="text";    
+        newInput.id="hi"+(elementCount); 
+        newInput.size=4;  
+		newInput.value = elementCount;
+        newInput.name="hi"+(elementCount);
+        TemO.appendChild(newInput);   
+		var newline= document.createElement("br"); 
+		newline.id = "br"+(elementCount); 
+        TemO.appendChild(newline);
+		
+        var TemO=document.getElementById("name");   
+        var newInput = document.createElement("input");    
+        newInput.type="text";    
+        newInput.id="name"+(elementCount); 
+        newInput.size=15;  
+        newInput.name="name"+(elementCount);
+        TemO.appendChild(newInput);   
+		var newline= document.createElement("br"); 
+		newline.id = "br"+(elementCount); 
+        TemO.appendChild(newline);
+           
+		var TemO=document.getElementById("picnumber");
+		var newInput = document.createElement("input");    
+        newInput.type="text";    
+        newInput.id="picnumber"+(elementCount); 
+		newInput.size=24;  
+        TemO.appendChild(newInput);
+		var newline= document.createElement("br"); 
+		newline.id = "br"+(elementCount); 
+        TemO.appendChild(newline);   
+		   
+		var TemO=document.getElementById("count");
+		var newInput = document.createElement("input");    
+        newInput.type="text";    
+        newInput.id="count"+(elementCount); 
+		newInput.size=12; 
+        TemO.appendChild(newInput);
+		var newline= document.createElement("br"); 
+		newline.id = "br"+(elementCount); 
+        TemO.appendChild(newline);
+		
+		var TemO=document.getElementById("time");
+		var newInput = document.createElement("input");    
+        newInput.type="text";    
+        newInput.id="time"+(elementCount); 
+		newInput.size=12; 
+        TemO.appendChild(newInput);
+        var newline= document.createElement("br"); 
+		newline.id = "br"+(elementCount); 
+        TemO.appendChild(newline);
+		
+		var TemO=document.getElementById("date");
+		var newInput = document.createElement("input");    
+        newInput.type="text";    
+        newInput.id="date"+(elementCount); 
+		newInput.size=20; 
+        TemO.appendChild(newInput);
+        var newline= document.createElement("br"); 
+		newline.id = "br"+(elementCount); 
+        TemO.appendChild(newline);
+    }
+	
+	function addElement5(){
+		for(var e = 0; e<5; e++){
+			AddElement();
+			}
+		}   
+       
+    function delElement(){ 
+		var TemO=document.getElementById("hi");   
+        if (elementCount>0){   
+        var newInput = document.getElementById("hi"+elementCount);    
+        TemO.removeChild(newInput); 
+        var newline= document.getElementById("br"+(elementCount)); 
+		TemO.removeChild(newline);
+		}  
+        var TemO=document.getElementById("name");   
+        if (elementCount>0){   
+        var newInput = document.getElementById("name"+elementCount);    
+        TemO.removeChild(newInput); 
+        var newline= document.getElementById("br"+(elementCount)); 
+		TemO.removeChild(newline);
+		}
+		var TemO=document.getElementById("picnumber");   
+        if (elementCount>0){   
+        var newInput = document.getElementById("picnumber"+elementCount);    
+        TemO.removeChild(newInput); 
+        var newline= document.getElementById("br"+(elementCount)); 
+		TemO.removeChild(newline);
+		}
+		var TemO=document.getElementById("count");   
+        if (elementCount>0){   
+        var newInput = document.getElementById("count"+elementCount);    
+        TemO.removeChild(newInput); 
+        var newline= document.getElementById("br"+(elementCount)); 
+		TemO.removeChild(newline);
+		}
+		var TemO=document.getElementById("time");   
+        if (elementCount>0){   
+        var newInput = document.getElementById("time"+elementCount);    
+        TemO.removeChild(newInput); 
+        var newline= document.getElementById("br"+(elementCount)); 
+		TemO.removeChild(newline);
+		}
+		var TemO=document.getElementById("date");   
+        if (elementCount>0){   
+        var newInput = document.getElementById("date"+elementCount);    
+        TemO.removeChild(newInput); 
+        var newline= document.getElementById("br"+(elementCount)); 
+		TemO.removeChild(newline);
+		}
+		elementCount = elementCount - 1;  
+           	 
+    }   
+	
+	function showWorker(){
+		for(var j = 0; j<worker.length; j++){
+			//alert(worker[j].name.value);
+			var sname = document.getElementById("sname");
+			var newtd1 = document.createElement("td");
+			newtd1.width = "80%";
+			newtd1.innerHTML = worker[j].name.value;
+			sname.appendChild(newtd1);
+			var newline= document.createElement("br"); 
+			//sname.appendChild(newline);
+			//sname.innerHTML = worker[j].name.value;
+			var spicnumber = document.getElementById("spicnumber");
+			var newtd2 = document.createElement("td");
+			newtd2.width = "80%";
+			newtd2.innerHTML = worker[j].picnumber.value;
+			sname.appendChild(newtd2);
+			var newline= document.createElement("br"); 
+			//sname.appendChild(newline);
+			
+			var scount = document.getElementById("scount");
+			var newtd3 = document.createElement("td");
+			newtd3.width = "80%";
+			newtd3.innerHTML = worker[j].count.value;
+			sname.appendChild(newtd3);
+			var newline= document.createElement("br"); 
+			//sname.appendChild(newline);
+			
+			var stime = document.getElementById("stime");
+			var newtd4 = document.createElement("td");
+			newtd4.width = "80%";
+			newtd4.innerHTML = worker[j].time.value;
+			sname.appendChild(newtd4);
+			var newline= document.createElement("br"); 
+			sname.appendChild(newline);
+			}
+		}
+	
+	function submitWorker(){
+		//alert(flag);
+		if(flag == 0){
+		if(elementCount>0){
+			for(var i = 1; i <= elementCount; i++){
+				var tempName = document.getElementById("name"+i);
+				var tempPicnumber = document.getElementById("picnumber"+i);
+				var tempCount = document.getElementById("count"+i);
+				var tempTime = document.getElementById("time"+i);
+				var tempWorker = new createWorker(tempName,tempPicnumber,tempCount,tempTime);
+				var num = worker.push(tempWorker);
+				//alert(num);
+				}					
+			}
+		//showWorker();
+		alert("提交成功！");
+		flag++;
+		}
+		else{
+			alert("已经提交过连");
+			}
+		}
+	
+	//计算函数
+	function calWorker(){
+		//worker.sort();
+		
+		worker.sort(function comp(x,y) {return x.name.value.localeCompare(y.name.value)});//将输入的乱序对象数组按照名字首字母进行排序
+		//alert(worker[0].name.value);
+		//showWorker();
+		
+		
+		//统计每个工人出现的次数，把名字和条条数存储在res中
+		var res = [];
+		for(var i = 0;i<worker.length;)
+		{
+		 var m = 0;
+		 for(var j=i;j<worker.length;j++)
+		 {
+			 if(worker[i].name.value == worker[j].name.value)
+		  {
+		   m++;
+		  }
+		  
+		 }
+		 res.push([worker[i].name.value,m]);
+		 i+=m;
+		 }
+
+/*		for(var  i = 0 ;i<res.length;i++)
+		{
+		 document.writeln("员工姓名:"+res[i][0]+"           条目数:"+res[i][1]+"<br/>");
+		}*/
+		
+		//把每个工人的所有条目存储在二元数组workerSplit中，数组的每个元素都是某个工人的所有条目
+		var workerSplit = [];
+		for(var n = 0; n<res.length; n++){
+			var tempWorker = [];
+			for(var h = 0; h<worker.length; h++){
+				if(res[n][0] == worker[h].name.value){
+					tempWorker.push(worker[h]);
+				}
+			}
+			workerSplit.push(tempWorker);
+		}
+		
+		//显示
+		/*for(var i = 0; i<workerSplit.length; i++){
+			for(var j = 0; j<workerSplit[i].length; j++){
+				document.writeln("姓名："+workerSplit[i][j].name.value+"		图号"+workerSplit[i][j].picnumber.value+"	数量"+			workerSplit[i][j].count.value+"	时间"+workerSplit[i][j].time.value+"<br>")
+			}
+		}*/
+		
+		
+	//计算每个工人不同工图的数量及时间
+	
+	for(var i = 0; i<workerSplit.length; i++){
+		
+		//将输入的乱序对象数组按照名字首字母进行排序
+		workerSplit[i].sort(function comp(x,y) {return x.picnumber.value.localeCompare(y.picnumber.value)});
+		
+		
+		//统计单个工人不同图号的次数，把图号和条条数存储在pic中
+		var pic = [];
+		for(var k = 0;k<workerSplit[i].length;)
+		{
+		 var m = 0;
+		 for(var l=k;l<workerSplit[i].length;l++)
+		 {
+			 if(workerSplit[i][k].picnumber.value == workerSplit[i][l].picnumber.value)
+		  {
+		   m++;
+		  }
+		  
+		 }
+		 pic.push([workerSplit[i][k].picnumber.value,m]);
+		 k+=m;
+		 }
+		
+		//统计
+		
+		var finalData = [];
+		
+		for(var k = 0; k<pic.length; k++)
+		{
+			var tCount = 0;
+			var tTime = 0;
+			for(var h = 0; h<workerSplit[i].length; h++)
+			{
+				if(pic[k][0] == workerSplit[i][h].picnumber.value)
+				{
+					tCount+=Number(workerSplit[i][h].count.value);
+					tTime+=Number(workerSplit[i][h].time.value);
+				}
+			}
+			finalData.push([workerSplit[i][0].name.value,pic[k][0],tCount,tTime]);
+		}
+		
+		for(var p = 0; p<finalData.length; p++)
+		{
+			document.writeln("姓名："+finalData[p][0]+"		图号："+finalData[p][1]+"		总数量："+finalData[p][2]+"		总时间："
+			+finalData[p][3]+"<br>")
+		}
+		
+	}
+
+		
+		
+}
+
+
+</script>
+
+<body>
+	<table>
+        <tr>
+        	<td>&nbsp;编号</td>
+        	<td>&nbsp;姓名</td>
+            <td>&nbsp;图号</td>
+            <td>&nbsp;数量</td>
+            <td>&nbsp;时间</td>
+            <td>&nbsp;日期</td>
+        </tr>
+    	<tr>
+        	<td id="hi"></td>
+        	<td id="name"></td>
+            <td id="picnumber"></td>
+            <td id="count"></td>
+            <td id="time"></td>
+            <td id="date"></td>
+        </tr>
+        <tr>
+            <td colspan="6">
+            	<input class="button blue medium" type="button" value="新建" onclick = "AddElement() " />
+                <input class="button blue medium" type="button" value="这个按钮很厉害的，可以一建建5条" onclick = "addElement5() " />
+                <input class="button red medium" type="button" value="删除" onclick = "delElement() " />
+                <input class="button green medium bigrounded" type="button" value="提交" onclick = "submitWorker()" />
+                <input class="button green medium bigrounded" type="button" value="计算" onclick = "calWorker()" />
+                <input class="button orange medium bigrounded" type="button" value="重算" onclick = "history.go(0)" />
+			</td>
+		</tr>
+    </table>
+    
+
+    <table width="100%">
+    	<tr>
+        	<td id="sname" width="20px"></td>
+            <td id="spicnumber"></td>
+            <td id="scount"></td>
+            <td id="stime"></td>
+        </tr>
+    </table>
+</body>
+</html>
